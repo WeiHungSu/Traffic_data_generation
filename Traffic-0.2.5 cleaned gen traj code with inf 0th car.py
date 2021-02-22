@@ -21,7 +21,7 @@ n_runs = int(np.ceil(n_traj / n_traj_per_run))
 # =========================== #
 #   parameter domain set up   #
 # =========================== #
-domain=np.array([[200, 200],  # n_cars_intended
+domain=np.array([[400, 400],  # n_cars_intended
                  [20, 20],  # T_r
                  [2, 2],  # C
                  [1, 1],  # rho_max
