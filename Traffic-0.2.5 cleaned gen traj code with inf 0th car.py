@@ -45,7 +45,7 @@ traj_len = int(np.random.uniform(domain[9, 0], domain[9, 1]))  # total time
 #     Output directories      #
 # =========================== #
 ith_run = 12
-example_name="traffic"
+example_name = "traffic"
 data_dir = traffic_data_generator.set_up(example_name)
 traj_dir = data_dir + '/parameters AW' + str(ith_run) + 'd_gen=' + str(delta_gen) + 'n_samples=' + str(n_samples)
 if not os.path.exists(traj_dir):
@@ -56,7 +56,7 @@ if not os.path.exists(traj_dir):
 # =========================== #
 #     Generate the data       #
 # =========================== #
-for i_run in range(n_runs):
+for i_run in range(int(n_runs/2)):
     np.random.seed(rand_seed + i_run)
     print(f'{i_run+1}/{n_runs}')
     location = np.full((n_traj_per_run, n_cars, int(round(traj_len / delta_gen))), -np.inf)
