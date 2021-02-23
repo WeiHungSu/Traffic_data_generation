@@ -57,12 +57,12 @@ if not os.path.exists(traj_dir):
 #     Generate the data       #
 # =========================== #
 for i_run in range(n_runs):
+    np.random.seed(rand_seed + i_run)
     print(f'{i_run+1}/{n_runs}')
     location = np.full((n_traj_per_run, n_cars, int(round(traj_len / delta_gen))), -np.inf)
     velocity = np.full((n_traj_per_run, n_cars, int(round(traj_len / delta_gen))), -np.inf)
 
     for i_traj in range(n_traj_per_run):
-        np.random.seed(rand_seed + i_traj + n_traj_per_run * i_run)
         acc_matrix = "stop"
 
         while acc_matrix == "stop":
