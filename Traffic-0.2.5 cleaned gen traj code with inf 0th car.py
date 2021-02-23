@@ -56,7 +56,9 @@ if not os.path.exists(traj_dir):
 # =========================== #
 #     Generate the data       #
 # =========================== #
-for i_run in range(int(n_runs/2)):
+run_index = 0
+run_index_list = np.array([[0, int(n_runs/2)], [int(n_runs/2), n_runs]])
+for i_run in range(run_index_list[run_index, 0], run_index_list[run_index, 1]):
     np.random.seed(rand_seed + i_run)
     print(f'{i_run+1}/{n_runs}')
     location = np.full((n_traj_per_run, n_cars, int(round(traj_len / delta_gen))), -np.inf)

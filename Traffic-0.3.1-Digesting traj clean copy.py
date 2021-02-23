@@ -53,13 +53,15 @@ n_runs = int(np.ceil(n_traj / n_traj_per_run))
 #     Generate the data       #
 # =========================== #
 # standard trajectory build and abs_weighted_indicator_func build
+run_index = 0
+run_index_list = np.array([[0, int(n_runs/2)], [int(n_runs/2), n_runs]])
 y_index_mat = np.load(data_dir + "/y_index for sampling.npy")
 for ind_f in (abs_weighted_indicator_func, indicator_func):
     for i_combo in range(5):
         len_hist_MZ = int(combinations[i_combo, 0])
         Delta_t = combinations[i_combo, 1]
         delta_ratio = int(round(Delta_t / delta_gen))
-        for i_run in range(1):  # range(n_runs):
+        for i_run in range(run_index_list[run_index, 0], run_index_list[run_index, 1]):  # range(n_runs):
             print(f'{i_run}/{n_runs}')
             np.random.seed(rand_seed + i_run)
             location = np.load(traj_dir + '/location' + str(i_run * n_traj_per_run) + ".npy")
@@ -85,11 +87,11 @@ for ind_f in (abs_weighted_indicator_func, indicator_func):
         print(i_combo)
         if ind_f == abs_weighted_indicator_func:
             np.save(data_dir + '/abs_weight_smoothed_x_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(
-                len_hist_MZ) + 'ith run' + str(ith_run) + '_' + str(i_combo) + '.npy', x)
+                len_hist_MZ) + 'ith run' + str(ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', x)
             np.save(data_dir + '/abs_weight_smoothed_y_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(
-                len_hist_MZ) + 'ith run' + str(ith_run) + '_' + str(i_combo) + '.npy', y)
+                len_hist_MZ) + 'ith run' + str(ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', y)
         else:
             np.save(data_dir + '/x_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(len_hist_MZ) + 'ith run' + str(
-                ith_run) + '_' + str(i_combo) + '.npy', x)
+                ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', x)
             np.save(data_dir + '/y_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(len_hist_MZ) + 'ith run' + str(
-                ith_run) + '_' + str(i_combo) + '.npy', y)
+                ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', y)
