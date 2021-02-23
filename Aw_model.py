@@ -31,4 +31,4 @@ class Aw():
         return true_acc
 
     def first_car_acc(self, v):
-        return self.A / self.T_r * (self.V(0) - v)
+        return self.A / self.T_r * (self.V(1/20) - v)
