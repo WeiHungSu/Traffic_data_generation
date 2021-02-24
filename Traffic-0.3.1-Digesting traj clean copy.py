@@ -2,7 +2,6 @@ import numpy as np
 import time
 import os
 import traffic_data_generator
-import traffic_util
 import random as rn
 from digest_util import *
 
@@ -53,7 +52,7 @@ n_runs = int(np.ceil(n_traj / n_traj_per_run))
 #     Generate the data       #
 # =========================== #
 # standard trajectory build and abs_weighted_indicator_func build
-run_index = 0
+run_index = 5  # 0, 5
 run_index_list = np.array([run_index*50, (run_index+1)*50])
 y_index_mat = np.load(data_dir + "/y_index for sampling.npy")
 for ind_f in (abs_weighted_indicator_func, indicator_func):
@@ -62,7 +61,7 @@ for ind_f in (abs_weighted_indicator_func, indicator_func):
         Delta_t = combinations[i_combo, 1]
         delta_ratio = int(round(Delta_t / delta_gen))
         for i_run in range(run_index_list[0], run_index_list[1]):  # range(n_runs):
-            print(f'{i_run}/{n_runs}')
+            print(f'{i_run}/{run_index_list[1]-run_index_list[0]}')
             np.random.seed(rand_seed + i_run)
             location = np.load(traj_dir + '/location' + str(i_run * n_traj_per_run) + ".npy")
 
@@ -78,7 +77,7 @@ for ind_f in (abs_weighted_indicator_func, indicator_func):
                         x_temp = ind_f(location[i_traj, :, y_index - delta_ratio * i_x], v, bin_size, n_bins)[1, :-1]
                         x_temp = x_temp.reshape([1, 1, -1])
                         x_build = np.concatenate((x_build, x_temp), axis=1)
-                    if i_traj == 0 and i_run == 0 and i_sample == 0:
+                    if i_traj == 0 and i_run == run_index_list[0] and i_sample == 0:
                         x = x_build
                         y = y_build
                     else:
