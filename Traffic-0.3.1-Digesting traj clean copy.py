@@ -39,10 +39,9 @@ combinations = np.array(
 ith_run = 12
 example_name = "traffic"
 data_dir = traffic_data_generator.set_up(example_name)
-experiment_name = "_no_share" + "_" + str(n_samples) + "_Delta_" + str(delta_gen)
-traj_dir = data_dir + '/parameters AW' + str(ith_run) + 'd_gen=' + str(delta_gen) + 'n_samples=' + str(n_samples)
-domain = np.load(
-    data_dir + '/parameters AW' + str(ith_run) + 'd_gen=' + str(delta_gen) + 'n_samples=' + str(n_samples) + '.npy')
+experiment_name = f'_no_share_{n_samples}_Delta_{delta_gen}'
+traj_dir = data_dir + f'/parameters AW{ith_run}d_gen={delta_gen}n_samples={n_samples}'
+domain = np.load(data_dir + f'/parameters AW{ith_run}d_gen={delta_gen}n_samples={n_samples}.npy')
 traj_len = int(np.random.uniform(domain[9, 0], domain[9, 1]))  # total time
 n_runs = int(np.ceil(n_traj / n_traj_per_run))
 
@@ -54,7 +53,7 @@ n_runs = int(np.ceil(n_traj / n_traj_per_run))
 # standard trajectory build and abs_weighted_indicator_func build
 run_index = 5  # 0, 5
 run_index_list = np.array([run_index*50, (run_index+1)*50])
-y_index_mat = np.load(data_dir + "/y_index for sampling.npy")
+y_index_mat = np.load(data_dir + '/y_index for sampling.npy')
 for ind_f in (abs_weighted_indicator_func, indicator_func):
     for i_combo in range(5):
         len_hist_MZ = int(combinations[i_combo, 0])
@@ -63,7 +62,7 @@ for ind_f in (abs_weighted_indicator_func, indicator_func):
         for i_run in range(run_index_list[0], run_index_list[1]):  # range(n_runs):
             print(f'{i_run}/{run_index_list[1]-run_index_list[0]}')
             np.random.seed(rand_seed + i_run)
-            location = np.load(traj_dir + '/location' + str(i_run * n_traj_per_run) + ".npy")
+            location = np.load(traj_dir + f'/location{i_run * n_traj_per_run}.npy')
 
             v = np.zeros_like(location[0, :, 0])
             for i_traj in range(n_traj_per_run):
@@ -85,12 +84,10 @@ for ind_f in (abs_weighted_indicator_func, indicator_func):
                         y = np.concatenate((y, y_build), axis=0)
         print(i_combo)
         if ind_f == abs_weighted_indicator_func:
-            np.save(data_dir + '/abs_weight_smoothed_x_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(
-                len_hist_MZ) + 'ith run' + str(ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', x)
-            np.save(data_dir + '/abs_weight_smoothed_y_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(
-                len_hist_MZ) + 'ith run' + str(ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', y)
+            np.save(data_dir + f'/digest/abs_weight_smoothed_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy', x)
+            np.save(data_dir + f'/digest/abs_weight_smoothed_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy', y)
+
         else:
-            np.save(data_dir + '/x_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(len_hist_MZ) + 'ith run' + str(
-                ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', x)
-            np.save(data_dir + '/y_delta_t=' + str(Delta_t) + 'MZ_hist=' + str(len_hist_MZ) + 'ith run' + str(
-                ith_run) + '_' + str(i_combo) + f'_run_index_{run_index}.npy', y)
+            np.save(data_dir + f'/digest/x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy', x)
+            np.save(data_dir + f'/digest/y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy', y)
+
