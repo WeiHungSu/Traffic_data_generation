@@ -51,7 +51,7 @@ n_runs = int(np.ceil(n_traj / n_traj_per_run))
 #     Generate the data       #
 # =========================== #
 # standard trajectory build and abs_weighted_indicator_func build
-run_index = 5  # 0, 5
+run_index = 6  # 0, 5
 run_index_list = np.array([run_index*50, (run_index+1)*50])
 y_index_mat = np.load(data_dir + '/y_index for sampling.npy')
 for ind_f in (abs_weighted_indicator_func, indicator_func):
@@ -60,7 +60,7 @@ for ind_f in (abs_weighted_indicator_func, indicator_func):
         Delta_t = combinations[i_combo, 1]
         delta_ratio = int(round(Delta_t / delta_gen))
         for i_run in range(run_index_list[0], run_index_list[1]):  # range(n_runs):
-            print(f'{i_run}/{run_index_list[1]-run_index_list[0]}')
+            print(f'{i_combo}/5 | {i_run-run_index_list[0]}/{run_index_list[1]-run_index_list[0]}')
             np.random.seed(rand_seed + i_run)
             location = np.load(traj_dir + f'/location{i_run * n_traj_per_run}.npy')
 
