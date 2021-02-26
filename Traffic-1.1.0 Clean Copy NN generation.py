@@ -15,7 +15,8 @@ os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
 rand_seed = 116
 rn.seed(rand_seed)
 np.random.seed(rand_seed)
-tf.random.set_seed(rand_seed)
+# tf.random.set_seed(rand_seed)
+tf.compat.v1.set_random_seed(rand_seed)
 
 
 # In[]
@@ -99,20 +100,21 @@ for i_combo in range(len(combinations)):
             len_hist_MZ = int(i_hist_MZ)
             if i_start == 2:
                 x = np.load(
-                    f'{data_dir}/poly_deg=5_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+                    f'{data_dir}/digest/poly_deg=5_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
                 y_temp = np.load(
-                    f'{data_dir}/poly_deg=5_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+                    f'{data_dir}/digest/poly_deg=5_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
             elif i_start == 3:
                 x = np.load(
-                    f'{data_dir}/abs_weight_smoothed_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+                    f'{data_dir}/digest/abs_weight_smoothed_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
                 y_temp = np.load(
-                    f'{data_dir}/abs_weight_smoothed_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+                    f'{data_dir}/digest/abs_weight_smoothed_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
             else:
-                x = np.load(f'{data_dir}/x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
-                y_temp = np.load(f'{data_dir}/y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+                x = np.load(f'{data_dir}/digest/x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+                y_temp = np.load(f'{data_dir}/digest/y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
             exec(f'y_shift{i_combo}_{i_start}=traffic_util.min_max_scale()')
             exec(f'y=y_shift{i_combo}_{i_start}.fit_transform((y_temp-x[:,0,:]))')
-            tf.random.set_seed(rand_seed_shift + i_start + i_combo * len(combinations))
+            tf.compat.v1.set_random_seed(rand_seed_shift + i_start + i_combo * len(combinations))
+#            tf.random.set_seed(rand_seed_shift + i_start + i_combo * len(combinations))
             if x.shape[0] == y.shape[0]:
                 n_data = x.shape[0]
             else:
