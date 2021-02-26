@@ -22,18 +22,18 @@ data_dir = traffic_data_generator.set_up(example_name)
 
 
 # In[] Combine the data
-for ind_f_name in ['abs_weight_smoothed_', '']:
+for prefix in ['abs_weight_smoothed_', '']:
     for i_combo in range(5):
         len_hist_MZ = int(combinations[i_combo, 0])
         Delta_t = combinations[i_combo, 1]
         for run_index in range(10):
-            x_temp = np.load(data_dir + f'/digest/{ind_f_name}x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy')
-            y_temp = np.load(data_dir + f'/digest/{ind_f_name}y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy')
+            x_temp = np.load(data_dir + f'/digest/{prefix}x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy')
+            y_temp = np.load(data_dir + f'/digest/{prefix}y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}_run_index_{run_index}.npy')
             if run_index == 0:
                 x = x_temp
                 y = y_temp
             else:
                 x = np.concatenate((x, x_temp), axis=0)
                 y = np.concatenate((y, y_temp), axis=0)
-        np.save(data_dir + f'/digest/{ind_f_name}x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', x)
-        np.save(data_dir + f'/digest/{ind_f_name}y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', y)
+        np.save(data_dir + f'/digest/{prefix}x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', x)
+        np.save(data_dir + f'/digest/{prefix}y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', y)

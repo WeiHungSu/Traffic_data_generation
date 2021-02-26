@@ -14,9 +14,9 @@ np.random.seed(rand_seed)
 # =========================== #
 delta_gen = 0.05
 n_samples = 100000
-n_bins=10
-bin_size=13
-
+n_bins = 20
+bin_size = 25
+deg = 5  # degree of the polynomial
 
 # =========================== #
 #   parameter domain set up   #
@@ -46,7 +46,7 @@ def data_save_path(i_combo, Delta_t, len_hist_MZ, ith_run, var, prefix):
 # =========================== #
 #     Change the delta        #
 # =========================== #
-for prefix in ("abs_weight_smoothed_", ""):
+for prefix in ('abs_weight_smoothed_', ''):
     for i_combo in range(len(combinations)):
         len_hist_MZ=int(combinations[i_combo, 0])
         Delta_t=combinations[i_combo, 1]
@@ -73,14 +73,12 @@ for i_combo in range(len(combinations)):
     len_hist_MZ=int(round(combinations[i_combo, 0]))
     Delta_t=combinations[i_combo, 1]
     delta_ratio=int(round(Delta_t/delta_gen))
-    x = np.load(f'{data_dir}/x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
-    y = np.load(f'{data_dir}/y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+    x = np.load(f'{data_dir}/digest/x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
+    y = np.load(f'{data_dir}/digest/y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy')
     n_samples = x.shape[0]
     n_bins = x.shape[2]  # 10
 
     # Data transformation by fitting the 5th polynomial
-    deg = 5
-    bin_size = 13
     bin_edge = -np.arange(n_bins)*bin_size
     x_new = np.zeros_like(x)
     y_new = np.zeros_like(y)
@@ -92,5 +90,5 @@ for i_combo in range(len(combinations)):
         y_new[i_sample, :] = poly_fit_eval(bin_edge, y[i_sample, :], deg)
 
     # Store the data
-    np.save(f'{data_dir}/poly_deg={deg}_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', x_new)
-    np.save(f'{data_dir}/poly_deg={deg}_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', y_new)
+    np.save(f'{data_dir}/digest/poly_deg={deg}_x_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', x_new)
+    np.save(f'{data_dir}/digest/poly_deg={deg}_y_delta_t={Delta_t}MZ_hist={len_hist_MZ}ith run{ith_run}_{i_combo}.npy', y_new)
