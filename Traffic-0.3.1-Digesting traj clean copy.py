@@ -1,8 +1,6 @@
 import numpy as np
-import time
 import os
 import traffic_data_generator
-import random as rn
 from digest_util import *
 
 os.environ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -20,7 +18,8 @@ n_samples = 100000
 n_bins = 20
 bin_size = 25
 n_traj_per_run = 50
-sample_per_traj=int(round(n_samples/n_traj))
+sample_per_traj = int(round(n_samples/n_traj))
+n_runs = int(np.ceil(n_traj / n_traj_per_run))
 
 # =========================== #
 #   parameter domain set up   #
@@ -37,13 +36,12 @@ combinations = np.array(
 #     Output directories      #
 # =========================== #
 ith_run = 12
-example_name = "traffic"
+example_name = 'traffic'
 data_dir = traffic_data_generator.set_up(example_name)
 experiment_name = f'_no_share_{n_samples}_Delta_{delta_gen}'
 traj_dir = data_dir + f'/parameters AW{ith_run}d_gen={delta_gen}n_samples={n_samples}'
 domain = np.load(data_dir + f'/parameters AW{ith_run}d_gen={delta_gen}n_samples={n_samples}.npy')
 traj_len = int(np.random.uniform(domain[9, 0], domain[9, 1]))  # total time
-n_runs = int(np.ceil(n_traj / n_traj_per_run))
 
 
 # In[]
@@ -51,7 +49,7 @@ n_runs = int(np.ceil(n_traj / n_traj_per_run))
 #     Generate the data       #
 # =========================== #
 # standard trajectory build and abs_weighted_indicator_func build
-run_index = 6  # 0, 5
+run_index = 6  # from 0 to 9
 run_index_list = np.array([run_index*50, (run_index+1)*50])
 y_index_mat = np.load(data_dir + '/y_index for sampling.npy')
 for ind_f in (abs_weighted_indicator_func, indicator_func):
